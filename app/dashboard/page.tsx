@@ -1,7 +1,7 @@
+// app/dashboard/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
 import InvoiceForm from "@/components/invoice/InvoiceForm";
 import InvoicePreview from "@/components/invoice/InvoicePreview";
 import { InvoiceType } from "@/lib/types";
@@ -24,17 +24,19 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchInvoices = async () => {
       setLoading(true);
-      const { data, error } = await supabase
-        .from("invoices")
-        .select("*")
-        .order("date", { ascending: false });
-
-      if (error) {
+      try {
+        const response = await fetch('/api/invoices');
+        if (!response.ok) {
+          throw new Error('Failed to fetch invoices');
+        }
+        const data = await response.json();
+        setInvoices(data.invoices as InvoiceType[]);
+      } catch (error) {
         console.error("❌ Error fetching invoices:", error);
-      } else {
-        setInvoices(data as InvoiceType[]);
+        // Aquí podrías mostrar un toast de error al usuario
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
     fetchInvoices();
@@ -50,6 +52,7 @@ export default function DashboardPage() {
       {/* Generador de facturas y vista previa */}
       <div className="flex flex-col md:flex-row gap-4">
         <div className="md:w-1/2 w-full">
+          {/* Este InvoiceForm tendrá que ser actualizado o eliminado si la lógica se mueve a otra página */}
           <InvoiceForm
             clientName={clientName}
             setClientName={setClientName}
@@ -133,7 +136,6 @@ export default function DashboardPage() {
           </div>
         )}
       </section>
-
     </main>
   );
 }

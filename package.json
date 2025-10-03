@@ -12,6 +12,7 @@
     "@hookform/resolvers": "^5.2.1",
     "@radix-ui/react-slot": "^1.2.3",
     "@react-pdf/renderer": "^4.3.0",
+    "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.50.3",
     "buffer": "^6.0.3",
     "class-variance-authority": "^0.7.1",

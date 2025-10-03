@@ -13,6 +13,7 @@ export type InvoiceItem = {
 };
 
 export type InvoicePayload = {
+  user_id: string;
   client_name: string;
   client_email: string;
   date: string;
