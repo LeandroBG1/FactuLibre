@@ -21,7 +21,7 @@ export async function POST(req: Request) {
         {
           filename: filename ?? 'factura.pdf',
           content: pdfBufferBase64,
-          contentType: 'application/pdf',
+          content_type: 'application/pdf',
         },
       ],
     });
